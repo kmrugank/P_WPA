@@ -11,6 +11,7 @@ import { Brand, Info } from "../components/UI";
 import { useStore, db } from "../core/store";
 import { today } from "../core/dates";
 import { saveSettings, validatePeriod } from "../core/db";
+import { uid } from "../core/compat";
 const goals = [
   "Predict upcoming periods",
   "Understand cycle patterns",
@@ -43,7 +44,7 @@ export default function Onboarding() {
         db.transaction("rw", db.preferences, db.periods, async () => {
           await saveSettings({ ...form, onboarded: true });
           if (last) {
-            const period = { id: crypto.randomUUID(), start: last, end: null };
+            const period = { id: uid(), start: last, end: null };
             validatePeriod(period, periods, today());
             await db.periods.put(period);
           }

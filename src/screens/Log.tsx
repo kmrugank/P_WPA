@@ -13,6 +13,7 @@ import { Card, PageTitle, Info } from "../components/UI";
 import { useStore, db } from "../core/store";
 import { emptyLog, moods, symptoms, type DailyLog } from "../core/types";
 import { today, nice } from "../core/dates";
+import { hasOwn } from "../core/compat";
 const moodFaces = [Smile, Leaf, Zap, Wind, Cloud, CloudRain, Heart, Activity];
 export default function Log({
   selected,
@@ -63,7 +64,7 @@ export default function Log({
     setDraft({ ...draft, ...change });
   function toggle(symptom: string) {
     const next = { ...draft.symptoms };
-    if (Object.hasOwn(next, symptom)) delete next[symptom];
+    if (hasOwn(next, symptom)) delete next[symptom];
     else
       Object.defineProperty(next, symptom, {
         value: 3,
@@ -188,11 +189,11 @@ export default function Log({
               <button
                 disabled={selected > today()}
                 key={s}
-                className={`chip ${Object.hasOwn(draft.symptoms, s) ? "selected" : ""}`}
-                aria-pressed={Object.hasOwn(draft.symptoms, s)}
+                className={`chip ${hasOwn(draft.symptoms, s) ? "selected" : ""}`}
+                aria-pressed={hasOwn(draft.symptoms, s)}
                 onClick={() => toggle(s)}
               >
-                {Object.hasOwn(draft.symptoms, s) && <Check size={14} />} {s}
+                {hasOwn(draft.symptoms, s) && <Check size={14} />} {s}
               </button>
             ))}
           </div>
@@ -231,7 +232,7 @@ export default function Log({
               disabled={!custom.trim() || selected > today()}
               onClick={() => {
                 const s = custom.trim();
-                if (!Object.hasOwn(draft.symptoms, s))
+                if (!hasOwn(draft.symptoms, s))
                   patch({ symptoms: { ...draft.symptoms, [s]: 3 } });
                 setCustom("");
               }}

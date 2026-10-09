@@ -13,6 +13,7 @@ import { Card, PageTitle, Sheet, Info } from "../components/UI";
 import { useStore, db } from "../core/store";
 import { today, date, key, nice, add } from "../core/dates";
 import { predict } from "../core/prediction";
+import { uid } from "../core/compat";
 import type { Period } from "../core/types";
 export default function Calendar({
   editPeriod,
@@ -303,7 +304,7 @@ export default function Calendar({
                 await mutate(
                   () =>
                     db.reminders.put({
-                      id: crypto.randomUUID(),
+                      id: uid(),
                       date: selected,
                       text: event.trim(),
                     }),

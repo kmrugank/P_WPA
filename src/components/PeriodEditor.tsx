@@ -3,6 +3,7 @@ import { Sheet, Info } from "./UI";
 import { useStore, db } from "../core/store";
 import { today } from "../core/dates";
 import { validatePeriod } from "../core/db";
+import { uid } from "../core/compat";
 import type { Period } from "../core/types";
 export function PeriodEditor({
   initial,
@@ -23,7 +24,7 @@ export function PeriodEditor({
     setBusy(true);
     setError("");
     const period = {
-      id: initial?.id ?? crypto.randomUUID(),
+      id: initial?.id ?? uid(),
       start: begin,
       end: end || null,
     };

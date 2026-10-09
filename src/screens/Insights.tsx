@@ -5,6 +5,7 @@ import { useStore } from "../core/store";
 import { average, median, history, predict } from "../core/prediction";
 import { nice, today } from "../core/dates";
 import { download } from "../core/backup";
+import { hasOwn } from "../core/compat";
 function Chart({
   title,
   values,
@@ -106,7 +107,7 @@ export default function Insights() {
               (l) =>
                 l.date >= period.start &&
                 l.date <= (period.end ?? today()) &&
-                Object.hasOwn(l.symptoms, frequencies[0][0]),
+                hasOwn(l.symptoms, frequencies[0][0]),
             ),
           ).length,
         }
@@ -353,7 +354,7 @@ export default function Insights() {
               filter.kind === "date"
                 ? l.date === filter.value
                 : filter.kind === "symptom"
-                  ? Object.hasOwn(l.symptoms, filter.value)
+                  ? hasOwn(l.symptoms, filter.value)
                   : l[filter.kind] === filter.value,
             )
             .sort((a, b) => b.date.localeCompare(a.date))

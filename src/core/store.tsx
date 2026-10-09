@@ -77,8 +77,13 @@ export function Store({ children }: { children: ReactNode }) {
     };
     const mq = matchMedia("(prefers-color-scheme: dark)");
     change();
-    mq.addEventListener("change", change);
-    return () => mq.removeEventListener("change", change);
+    if (typeof mq.addEventListener === "function") {
+      mq.addEventListener("change", change);
+      return () => mq.removeEventListener("change", change);
+    }
+
+    mq.addListener(change);
+    return () => mq.removeListener(change);
   }, [data.settings.theme]);
   const mutate = async (
     operation: () => Promise<unknown>,

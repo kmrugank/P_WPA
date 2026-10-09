@@ -20,7 +20,7 @@ export function history(periods: Period[]) {
 }
 export function predict(periods: Period[], settings: Settings, now = today()) {
   const { sorted, lengths, durations } = history(periods);
-  const latest = sorted.at(-1);
+  const latest = sorted[sorted.length - 1];
   const suppressed = !["standard", "irregular", "perimenopause"].includes(
     settings.mode,
   );

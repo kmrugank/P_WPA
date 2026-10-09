@@ -54,3 +54,12 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Install WebKit
+        run: npx playwright install --with-deps webkit
+
+      - name: Verify deployed app in WebKit
+        run: node scripts/verify-live.mjs
+        env:
+          LIVE_URL: ${{ steps.deployment.outputs.page_url }}
+          LIVE_BROWSER: webkit

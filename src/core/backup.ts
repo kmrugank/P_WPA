@@ -1,4 +1,5 @@
 import { validDate, today } from "./dates";
+import { hasOwn } from "./compat";
 import {
   modeLabels,
   moods,
@@ -43,7 +44,7 @@ export function validateBackup(input: unknown): Backup {
       (Number.isInteger(s.periodLength) && range(s.periodLength, 1, 15))
     ) ||
     typeof s.mode !== "string" ||
-    !Object.hasOwn(modeLabels, s.mode) ||
+    !hasOwn(modeLabels, s.mode) ||
     !["system", "light", "dark"].includes(s.theme as string) ||
     ![0, 1].includes(s.weekStart as number) ||
     !["MMM d, yyyy", "dd/MM/yyyy", "MM/dd/yyyy"].includes(
